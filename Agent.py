@@ -4,9 +4,9 @@ from torch import optim
 from Network import *
 
 GAMMA =0.99
-TAU = 0.005
-LR_CRITIC = 0.005
-LR_ACTOR = 0.005
+TAU = 0.05
+LR_CRITIC = 0.0025
+LR_ACTOR = 0.0025
 
 class DDPGAgent():
 
@@ -27,7 +27,7 @@ class DDPGAgent():
 
         self.critic = Network_Critic(critic_state_dim, critic_action_dim).to(self.device)
         self.critic_optimizer = optim.Adam(self.critic.parameters(), lr=LR_CRITIC, weight_decay=1.e-5)
-
+        
         self.actor = Network_Actor(actor_state_dim, action_dim).to(self.device)
         self.actor_optimizer = optim.Adam(self.actor.parameters(), lr=LR_ACTOR)
 
@@ -38,6 +38,7 @@ class DDPGAgent():
         action = self.actor(state).data.numpy()
         # random noise and clip
         action += np.random.randn(self.action_dim) * policy_noise
+
         return action.clip(-1., 1.)
 
     def learn(self, states_full, actions_full, rewards, states_next_full, actions_next_full, dones, actor_preds_full):

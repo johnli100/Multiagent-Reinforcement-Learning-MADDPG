@@ -42,6 +42,6 @@ class MADDPG():
             torch.save(agent.actor.state_dict(), 'agent'+ str(i) + '_actor.pth')
             torch.save(agent.critic.state_dict(), 'agent' + str(i) + '_critic.pth')
 
-    def load_checkpoint(self, ckpdir):
+    def load_checkpoint(self):
         for i, agent in enumerate(self.agents):
-            torch.load(agent.actor.state_dict(), 'agent'+ str(i) + '_actor.pth')
+            agent.actor.load_state_dict(torch.load('agent'+ str(i) + '_actor.pth'))

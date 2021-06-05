@@ -2,7 +2,7 @@ import torch
 from torch import nn
 
 class Network_Actor(nn.Module):
-    def __init__(self, state_dim, action_dim, hidden_dims=[48, 24]):
+    def __init__(self, state_dim, action_dim, hidden_dims=[64, 32]):
         super().__init__()
         hidden_dims = [state_dim] + hidden_dims
         self.layers = nn.ModuleList([nn.Linear(hidden_dims[i], hidden_dims[i+1]) \
@@ -20,7 +20,7 @@ class Network_Actor(nn.Module):
 
 
 class Network_Critic(nn.Module):
-    def __init__(self, state_dim, action_dim, hidden_dims=[64, 32]):
+    def __init__(self, state_dim, action_dim, hidden_dims=[128, 64]):
         super().__init__()
         hidden_dims = [state_dim+action_dim] + hidden_dims
         self.layers = nn.ModuleList([nn.Linear(hidden_dims[i], hidden_dims[i + 1]) \
